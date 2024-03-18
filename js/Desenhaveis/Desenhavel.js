@@ -25,7 +25,7 @@ export class Desenhavel{
                 id: this.id + this.direcao,
                 posicao: this.posicao,
                 frames: this.frames
-            });
+            })
         }
     }
     executar() {
@@ -33,6 +33,6 @@ export class Desenhavel{
             id: this.id,
             pos: this.posicao,
             frames: this.frames
-        });
+        })
     }
 }

@@ -7,5 +7,38 @@ export class Jogador extends Desenhavel {
             dir: "Cima",
             id: "Jogador"
         })
+        this.velocidade = 10
+        this.andando = false
+    }
+    mudarDirecao(direcao) {
+        if (!direcao) return
+        this.direcao = direcao
+    }
+    executar() {
+        this.mover()
+        this.desenhar({
+            id: this.id,
+            pos: this.posicao,
+            frames: this.frames
+        })
+    }
+    mover() {
+        if (!this.andando) return
+        switch (this.direcao) {
+            case "Cima":
+                this.posicao[1] -= this.velocidade
+                break
+            case "Baixo":
+                this.posicao[1] += this.velocidade
+                break
+            case "Direita":
+                this.posicao[0] += this.velocidade
+                break
+            case "Esquerda":
+                this.posicao[0] -= this.velocidade
+                break
+            default:
+                break
+        }
     }
 }

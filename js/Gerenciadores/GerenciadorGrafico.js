@@ -34,7 +34,28 @@ export class GerenciadorGrafico {
                 sprites: 4,
                 tamanho: [],
                 escala: 5
-            }
+            },
+            JogadorBaixo: {
+              caminho: './assets/JogadorBaixo.png',
+              imagem: new Image(),
+              sprites: 4,
+              tamanho: [],
+              escala: 5
+            },
+            JogadorDireita: {
+              caminho: './assets/JogadorDireita.png',
+              imagem: new Image(),
+              sprites: 4,
+              tamanho: [],
+              escala: 5
+            },
+            JogadorEsquerda: {
+              caminho: './assets/JogadorEsquerda.png',
+              imagem: new Image(),
+              sprites: 4,
+              tamanho: [],
+              escala: 5
+          }
         }
     }
     redimensionar() {
@@ -79,7 +100,6 @@ export class GerenciadorGrafico {
             return;
         }
         if (!tamanho) tamanho = textura.tamanho;
-        console.log(textura)
         this.context.save();
         this.context.translate(
           posicao[0] + tamanho[0] / 2,
@@ -142,5 +162,8 @@ export class GerenciadorGrafico {
         }
         console.log("Sem texturas")
         return null;
+    }
+    apagar() {
+      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
