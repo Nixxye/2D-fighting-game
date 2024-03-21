@@ -1,4 +1,4 @@
-import { Fase } from "../Desenhaveis/Fase.js"
+import { Fase } from "../Estados/Fase.js"
 
 export class GerenciadorEstados {
   constructor() {

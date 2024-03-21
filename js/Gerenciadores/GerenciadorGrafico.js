@@ -96,7 +96,13 @@ export class GerenciadorGrafico {
     }) {
         const textura = this.texturas[id];
         if (!textura) {
-            console.log(id);
+            this.context.fillStyle = 'white'
+            this.context.fillRect(
+              posicao[0],
+              posicao[1],
+              tamanho[0],
+              tamanho[1]
+            )
             return;
         }
         if (!tamanho) tamanho = textura.tamanho;

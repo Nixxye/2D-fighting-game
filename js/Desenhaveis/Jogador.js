@@ -1,4 +1,5 @@
 import { Desenhavel } from "./Desenhavel.js"
+import { ObservadorJogador } from "../Gerenciadores/GerenciadorInputs.js"
 
 export class Jogador extends Desenhavel {
     constructor() {
@@ -9,6 +10,7 @@ export class Jogador extends Desenhavel {
         })
         this.velocidade = 10
         this.andando = false
+        this.observador = new ObservadorJogador(this) 
     }
     mudarDirecao(direcao) {
         if (!direcao) return
