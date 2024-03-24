@@ -1,7 +1,6 @@
 import { GerenciadorEstados } from "./Gerenciadores/GerenciadorEstados.js"
+import { GerenciadorGrafico } from "./Gerenciadores/GerenciadorGrafico.js"
 import { Desenhavel } from "./Desenhaveis/Desenhavel.js"
-import { Fase } from "./Estados/Fase.js"
-
 
 const gerGrafico = new GerenciadorGrafico()
 

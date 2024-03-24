@@ -18,8 +18,7 @@ export class GerenciadorGrafico {
         
         this.camera = new Camera()
         this.redimensionar()
-        addEventListener("resize", () => this.redimensionar())
-        
+        addEventListener("resize", () => this.redimensionar())        
         this.texturas = {
             Jogador: {
                 caminho: './assets/Jogador.png',
@@ -59,34 +58,32 @@ export class GerenciadorGrafico {
         }
     }
     redimensionar() {
-        this.camera.centralizar([0,0]);
-
-        const delta = []
-        delta[0] = this.canvas.width - window.innerWidth
-        delta[1] = this.canvas.height - window.innerHeight
-        this.canvas.width = window.innerWidth
-        this.canvas.height = window.innerHeight
-        return delta
+      const delta = []
+      delta[0] = this.canvas.width - window.innerWidth
+      delta[1] = this.canvas.height - window.innerHeight
+      this.canvas.width = window.innerWidth
+      this.canvas.height = window.innerHeight
+      return delta
     }
     carregarImagens() {
-        let imagensParaCarregar = Object.values(this.texturas);
+        let imagensParaCarregar = Object.values(this.texturas)
 
-        const promessas = [];
+        const promessas = []
 
         imagensParaCarregar.forEach((text) => {
             const promessa = new Promise((resolve) => {
-                text.imagem.src = text.caminho;
+                text.imagem.src = text.caminho
                 text.imagem.onload = () => {
                   text.tamanho = [
                     (text.imagem.width / text.sprites) * text.escala,
                      text.imagem.height * text.escala
                     ];
-                    resolve();
+                    resolve()
                 };
             })
-            promessas.push(promessa);
+            promessas.push(promessa)
           });
-        return Promise.all(promessas);
+        return Promise.all(promessas)
     }
     desenhar({
         id,
@@ -94,19 +91,19 @@ export class GerenciadorGrafico {
         tamanho = null,
         frames = {frameAtual: 0, max: 0, delay: 10, t: 0}
     }) {
-        const textura = this.texturas[id];
+        const textura = this.texturas[id]
         if (!textura) {
             this.context.fillStyle = 'white'
             this.context.fillRect(
-              posicao[0],
-              posicao[1],
+              posicao[0] - this.camera.posicao[0],
+              posicao[1] - this.camera.posicao[1],
               tamanho[0],
               tamanho[1]
             )
-            return;
+            return
         }
-        if (!tamanho) tamanho = textura.tamanho;
-        this.context.save();
+        if (!tamanho) tamanho = textura.tamanho
+        this.context.save()
         this.context.translate(
           posicao[0] + tamanho[0] / 2,
           posicao[1] + tamanho[1] / 2
@@ -116,7 +113,7 @@ export class GerenciadorGrafico {
             -posicao[0] - tamanho[0] / 2,
             -posicao[1] - tamanho[1] / 2
             );
-        this.context.globalAlpha = 1;
+        this.context.globalAlpha = 1
     
         const crop = {
           posicao: {
@@ -147,29 +144,29 @@ export class GerenciadorGrafico {
           imagem.altura * textura.escala
         );
     
-        this.context.restore();
+        this.context.restore()
     
-        if (frames.max < 1) return;
+        if (frames.max < 1) return
     
         if (textura.sprites > 1) {
-          frames.t++;
+          frames.t++
         }
     
         if (frames.t % frames.delay === 0) {
-          if (frames.frameAtual < frames.max - 1) frames.frameAtual++;
-          else frames.frameAtual = 0;
+          if (frames.frameAtual < frames.max - 1) frames.frameAtual++
+          else frames.frameAtual = 0
         }
         return frames;    
     }
     getTamanho(id) {
-        const textura = this.texturas[id];
+        const textura = this.texturas[id]
         if (textura) {
-            return textura.tamanho;
+            return textura.tamanho
         }
         console.log("Sem texturas")
-        return null;
+        return null
     }
     apagar() {
-      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
 }

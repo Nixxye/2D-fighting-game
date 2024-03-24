@@ -1,6 +1,9 @@
 import { Desenhavel } from "./Desenhavel.js"
 import { ObservadorJogador } from "../Gerenciadores/GerenciadorInputs.js"
 
+const VEL_MAX = 20;
+const ACELERACAO = 2;
+
 export class Jogador extends Desenhavel {
     constructor() {
         super({
@@ -8,7 +11,6 @@ export class Jogador extends Desenhavel {
             dir: "Cima",
             id: "Jogador"
         })
-        this.velocidade = 10
         this.andando = false
         this.observador = new ObservadorJogador(this) 
     }
@@ -18,29 +20,49 @@ export class Jogador extends Desenhavel {
     }
     executar() {
         this.mover()
-        this.desenhar({
-            id: this.id,
-            pos: this.posicao,
-            frames: this.frames
-        })
+        this.desenhar()
     }
     mover() {
-        if (!this.andando) return
-        switch (this.direcao) {
-            case "Cima":
-                this.posicao[1] -= this.velocidade
-                break
-            case "Baixo":
-                this.posicao[1] += this.velocidade
-                break
-            case "Direita":
-                this.posicao[0] += this.velocidade
-                break
-            case "Esquerda":
-                this.posicao[0] -= this.velocidade
-                break
-            default:
-                break
+        if (!this.andando) {
+            if (this.velocidade[0] != 0) {
+                if (this.velocidade[0] > 0) {
+                    this.velocidade[0] -= ACELERACAO / 2
+                }
+                else {
+                    this.velocidade[0] += ACELERACAO / 2
+                }                
+            }
+            if (this.velocidade[1] != 0) {
+                if (this.velocidade[1] > 0) {
+                    this.velocidade[1] -= ACELERACAO / 2
+                }
+                else {
+                    this.velocidade[1] += ACELERACAO / 2
+                }                
+            }
+        } 
+        else {
+            switch (this.direcao) {
+                case "Cima":
+                    if (this.velocidade[1] > -VEL_MAX) this.velocidade[1] -= ACELERACAO
+                    break
+                case "Baixo":
+                    if (this.velocidade[1] < VEL_MAX) this.velocidade[1] += ACELERACAO
+                    break
+                case "Direita":
+                    if (this.velocidade[0] < VEL_MAX) this.velocidade[0] += ACELERACAO
+                    break
+                case "Esquerda":
+                    if (this.velocidade[0] > -VEL_MAX) this.velocidade[0] -= ACELERACAO
+                    break
+                default:
+                    break
+            }            
         }
+        this.posicao[0] += this.velocidade[0]
+        this.posicao[1] += this.velocidade[1]
+    }
+    colidir(novaPosicao, dano = 0) {
+        this.posicao = novaPosicao
     }
 }

@@ -1,5 +1,5 @@
 import { Desenhavel } from "./Desenhavel.js"
-import { Plataforma } from "./Desenhaveis/Plataforma.js"
+import { Plataforma } from "./Plataforma.js"
 
 export class Mapa extends Desenhavel {
     constructor() {
@@ -9,5 +9,10 @@ export class Mapa extends Desenhavel {
         })
         this.plataformas = []
         this.plataformas.push(new Plataforma())
+    }
+    desenhar() {
+        this.plataformas.forEach(
+            plataforma => plataforma.desenhar()
+            )
     }
 }

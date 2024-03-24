@@ -21,6 +21,7 @@ export class Desenhavel{
         this.andando = false
         this.frames = frames
         this.dano = 0
+        this.velocidade = [0, 0]
         if (Desenhavel.gerGrafico && !tam) this.tamanho = Desenhavel.gerGrafico.getTamanho(this.id + this.direcao)
         else this.tamanho = tam
     }
@@ -40,5 +41,8 @@ export class Desenhavel{
             pos: this.posicao,
             frames: this.frames
         })
+    }
+    colidir(novaPosicao, dano = 0) {
+        // Por enquanto nada por padrão
     }
 }
