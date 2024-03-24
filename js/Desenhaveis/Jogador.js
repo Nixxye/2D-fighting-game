@@ -13,6 +13,8 @@ export class Jogador extends Desenhavel {
         })
         this.andando = false
         this.observador = new ObservadorJogador(this) 
+        // Para poder retornar caso ocorra uma colisão -> Procurar por uma abordagem melhor
+        this.posicaoAnterior = [0, 0]
     }
     mudarDirecao(direcao) {
         if (!direcao) return
@@ -59,10 +61,12 @@ export class Jogador extends Desenhavel {
                     break
             }            
         }
+        this.posicaoAnterior = this.posicao
         this.posicao[0] += this.velocidade[0]
         this.posicao[1] += this.velocidade[1]
     }
-    colidir(novaPosicao, dano = 0) {
+    colidir(novaPosicao = this.posicaoAnterior, dano = 0) {
         this.posicao = novaPosicao
+        this.velocidade = [0, 0]
     }
 }

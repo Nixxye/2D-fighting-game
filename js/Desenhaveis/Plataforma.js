@@ -8,4 +8,14 @@ export class Plataforma extends Desenhavel {
             id: "Plataforma"
         })
     }
+    // desenhar() {
+    //     if (Desenhavel.gerGrafico) {
+    //         this.frames = Desenhavel.gerGrafico.desenhar({
+    //             id: this.id + this.direcao,
+    //             posicao: this.posicao,
+    //             frames: this.frames,
+    //             tamanho: this.tamanho
+    //         })
+    //     }
+    // }
 }

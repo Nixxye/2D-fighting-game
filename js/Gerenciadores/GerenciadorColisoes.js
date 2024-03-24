@@ -13,7 +13,21 @@ r2 = {
     r1.posicao[1] + r1.tamanho[1] >= r2.posicao[1] &&
     r1.posicao[1] <= r2.posicao[1] + r2.tamanho[1] 
 }
-
+function posicaoDisponivel(colisoes, tamanhoColidivel, {posicao, tamanho}) {
+    // Tomar 5 pontos para checar a colisão
+   return !(
+        // Norte
+        colisoes[Math.round((posicao[0] + tamanho[0] / 2)/tamanhoColidivel[0]), Math.floor((posicao[1])/tamanhoColidivel[1])] || 
+        // Sul
+        colisoes[Math.round((posicao[0] + tamanho[0] / 2)/tamanhoColidivel[0]), Math.ceil((posicao[1] + tamanho[1])/tamanhoColidivel[1])]  ||
+        // Oeste
+        colisoes[Math.floor((posicao[0])/tamanhoColidivel[0]), Math.round((posicao[1] + tamanho[1] / 2)/tamanhoColidivel[1])] || 
+        // Leste
+        colisoes[Math.ceil((posicao[0] + tamanho[0])/tamanhoColidivel[0]), Math.round((posicao[1] + tamanho[1] / 2)/tamanhoColidivel[1])] ||
+        // Centro
+        colisoes[Math.round((posicao[0] + tamanho[0] / 2)/tamanhoColidivel[0]), Math.round((posicao[1] + tamanho[1] / 2)/tamanhoColidivel[1])]
+   )
+}
 function calcularPosicao(r1 = {
     posicao,
     tamanho
@@ -24,35 +38,19 @@ r2 = {
 },
 knockback = 0
 ) {
-    const distanciaCentros = [
-        r1.posicao[0] - r2.posicao[0],
-        r1.posicao[1] - r2.posicao[1]
-    ]
-    const interseccao = [
-        Math.abs(distanciaCentros[0] - (r1.tamanho[0] + r2.tamanho[0]) / 2),
-        Math.abs(distanciaCentros[1] - (r1.tamanho[1] + r2.tamanho[1]) / 2)
-    ]
-    // Colisão no eixo Y;
-    if (interseccao[0] < interseccao[1]) {
-        // r1 por cima de r2:
-        console.log('Colisão Y')
-        if (r1.posicao[1] > r2.posicao[1]) {
-            return [r1.posicao[0], r2.posicao[1] + (r2.tamanho[1] + r2.tamanho[1] + KNOCKBACK * knockback) / 2]
-        }
-        return [r1.posicao[0], r2.posicao[1] - (r2.tamanho[1] + r2.tamanho[1] + KNOCKBACK * knockback) / 2]          
-    }
-    if (r1.posicao[0] < r2.posicao[0]) {
-        console.log('Colisão X')
-        // Não sei pq o tamanho tem q estar dividido por 2
-        return [r2.posicao[0] - (r2.tamanho[0] + r2.tamanho[0] / 2 + KNOCKBACK * knockback + 1) / 2, r1.posicao[1]]
-    }
-    return [r2.posicao[0] + (r2.tamanho[0] + r2.tamanho[0] + KNOCKBACK * knockback + 1) / 2, r1.posicao[1]]
 }
 export class GerenciadorColisoes {
     constructor() {
 
     }
-
+    colisaoMapa(colisoes, tamanho, personagens = []) {
+        personagens.forEach(personagem => {
+            if (!posicaoDisponivel(colisoes, tamanho, personagem)) {
+                console.log("No")
+                personagem.colidir()
+            }  
+        })
+    }
     colisaoSimples(lista1, lista2) {
         lista1.forEach(elemento1 => {
             lista2.forEach(elemento2 => {

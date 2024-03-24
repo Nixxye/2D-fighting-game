@@ -1,5 +1,6 @@
 import { Fase } from "../Estados/Fase.js"
 
+
 export class GerenciadorEstados {
   constructor() {
     this.estadoAtual = 'Fase';
